@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import InputRequired, Length, DataRequired,Email
 import mysql.connector
 
 app = Flask(__name__)
@@ -55,6 +55,10 @@ class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Length(max=50)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=50)])
     submit = SubmitField('Register')
+class EditUserForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Save Changes')
 
 @app.route('/')
 def index():
@@ -109,6 +113,51 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+from flask import render_template
+import mysql.connector
+
+@app.route('/users')
+def users():
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = "SELECT id, name, email FROM users"
+    cursor.execute(query)
+    users = cursor.fetchall()
+    return render_template('users.html', users=users)
+
+@app.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_user(user_id):
+    form = EditUserForm()
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = f"SELECT * FROM users WHERE id = {user_id}"
+    cursor.execute(query)
+    user = cursor.fetchone()
+    if not user:
+        abort(404)
+    if form.validate_on_submit():
+        query = f"UPDATE users SET name = '{form.name.data}', email = '{form.email.data}' WHERE id = {user_id}"
+        cursor.execute(query)
+        cnx.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('users'))
+    elif request.method == 'GET':
+        form.name.data = user[1]
+        form.email.data = user[2]
+    return render_template('edit_user.html', form=form)
+
+
+@app.route('/users/delete/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    query = f"DELETE FROM users WHERE id={user_id}"
+    cursor.execute(query)
+    cnx.commit()
+    flash('User deleted successfully', 'success')
+    return redirect(url_for('users'))
 
 if __name__ == '__main__':
     app.run(debug=True)
