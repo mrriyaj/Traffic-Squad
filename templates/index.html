@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Traffic Squad</h1>
+    <p class="lead">The smart traffic violation management system.</p>
+    {% if not current_user.is_authenticated %}
+    <hr class="my-4">
+    <p>Join now to start using our video analysis features and keep our roads safer.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Get started</a>
+    {% endif %}
+</div>
+{% endblock %}
