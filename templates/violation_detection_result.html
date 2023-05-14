@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Violation Detection Results</h1>
+  {% if violations %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Snapshot</th>
+          <th>Violation Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for violation in violations %}
+          <tr>
+            <td>{{ violation.time }}</td>
+            <td><img src="{{ url_for('static', filename='violation_snapshots/' + violation.snapshot) }}"></td>
+            <td>{{ violation.type }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No violations detected.</p>
+  {% endif %}
+{% endblock %}

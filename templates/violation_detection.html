@@ -1,0 +1,21 @@
+<!-- violation_detection.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Violation Detection</h1>
+
+    <form id="video-form" method="post" enctype="multipart/form-data">
+        <input type="file" id="video-file" name="video" accept="video/mp4">
+        <button type="submit">Process Video</button>
+    </form>
+
+    <div id="video-container">
+        <video id="video-player" controls></video>
+    </div>
+
+    <div id="output"></div>
+
+    <!-- Include the JavaScript file -->
+    <script src="{{ url_for('static', filename='js/violation_detection.js') }}"></script>
+{% endblock %}
