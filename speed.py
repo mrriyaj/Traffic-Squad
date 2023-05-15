@@ -8,7 +8,7 @@ from app import app
 from flask import render_template, request, redirect, url_for, flash, abort, Response
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 from mysql.connector import pooling
-import datetime
+from flask_login import login_required
 
 # Create database connection pool
 db_config = {
@@ -198,6 +198,7 @@ def trackMultipleObjects():
               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         
 @app.route('/violation_detection')
+@login_required
 def violation_detection():
     return render_template('violation_detection.html')
 
@@ -208,6 +209,7 @@ def video_feed():
     return Response(trackMultipleObjects(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/report')
+@login_required
 def report():
     # Retrieve all captured car records from the MySQL database
     conn = db_pool.get_connection()
@@ -223,6 +225,7 @@ def report():
     return render_template('report.html', records=records)
 
 @app.route('/view_record/<int:record_id>')
+@login_required
 def view_record(record_id):
     # Retrieve the specific captured car record from the MySQL database
     conn = db_pool.get_connection()
@@ -239,6 +242,7 @@ def view_record(record_id):
 
 
 @app.route('/edit_record/<int:record_id>', methods=['GET', 'POST'])
+@login_required
 def edit_record(record_id):
     # Retrieve the specific captured car record from the MySQL database
     conn = db_pool.get_connection()
@@ -272,6 +276,7 @@ def edit_record(record_id):
 
 
 @app.route('/delete_record/<int:record_id>', methods=['POST'])
+@login_required
 def delete_record(record_id):
     # Delete the specific captured car record from the MySQL database
     conn = db_pool.get_connection()

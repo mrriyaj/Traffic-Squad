@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from config import SECRET_KEY
 from model import User
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 
@@ -20,6 +21,7 @@ def unauthorized_callback():
 
 # Import routes after initializing the app and login manager
 from routes import *
+from speed import *
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -55,3 +55,37 @@ body {
 .table td {
   color: white;
 }
+
+/* Index page styles */
+.jumbotron {
+    background-color: #212121;
+    color: white;
+    padding: 3rem;
+    margin-top: 3rem;
+}
+
+.jumbotron .display-4 {
+    color: #d32f2f;
+}
+
+.jumbotron .lead {
+    color: #ffffff;
+}
+
+.jumbotron hr {
+    background-color: #ffffff;
+}
+
+.jumbotron p {
+    color: #ffffff;
+}
+
+.jumbotron a.btn-primary {
+    background-color: #d32f2f;
+    border-color: #d32f2f;
+}
+
+.jumbotron a.btn-primary:hover {
+    background-color: #b71c1c;
+    border-color: #b71c1c;
+}
