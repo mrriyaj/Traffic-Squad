@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h1 class="text-center mb-4">Captured Cars</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Car ID</th>
+                                    <th>Speed (km/h)</th>
+                                    <th>Violation Status</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in records %}
+                                <tr>
+                                    <td>{{ record[1] }}</td>
+                                    <td>{{ record[2]|round(2) }}</td>
+                                    <td>
+                                        {% if record[3] %}
+                                        <span class="badge bg-danger">Violated</span>
+                                        {% else %}
+                                        <span class="badge bg-success">Not Violated</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <img src="{{ url_for('static', filename=record[4]) }}" class="img-thumbnail" alt="Car Image" width="150">
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('view_record', record_id=record[0]) }}" class="btn btn-primary btn-sm">View</a>
+                                        <a href="{{ url_for('edit_record', record_id=record[0]) }}" class="btn btn-secondary btn-sm">Edit</a>
+                                        <form method="POST" action="{{ url_for('delete_record', record_id=record[0]) }}" onsubmit="return confirm('Are you sure you want to delete this record?')">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

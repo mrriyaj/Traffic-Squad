@@ -1,0 +1,57 @@
+/* Navbar styles */
+.navbar {
+    background-color: #212121 !important;
+}
+
+/* Navbar styles */
+.red-nav .nav-link {
+    color: red;
+}
+
+/* Footer styles */
+.footer {
+    background-color: #212121;
+    color: white;
+}
+
+/* Body styles */
+body {
+    background-color: #111111;
+    color: white;
+}
+
+/* Card styles */
+.card {
+    background-color: #212121;
+    border-color: #212121;
+    margin: auto;
+}
+
+.card-title {
+    color: white;
+}
+
+.form-control {
+    background-color: #333333;
+    border-color: #555555;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-danger {
+    background-color: #ff0000;
+    border-color: #ff0000;
+}
+
+.table {
+  color: white;
+}
+
+.table th,
+.table td {
+  color: white;
+}

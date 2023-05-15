@@ -1,10 +1,10 @@
-from flask import render_template, request, redirect, url_for, flash, abort
+from flask import render_template, request, redirect, url_for, flash, abort, Response
 from flask_login import login_user, login_required, logout_user, current_user
 from app import app
 from forms import LoginForm, RegisterForm, EditUserForm
 from model import User
-from speed_tracking import start_speed_tracking
-import threading
+from speed import trackMultipleObjects, video
+import cv2
 
 @app.route('/')
 def index():
@@ -95,18 +95,3 @@ def delete_user(user_id):
     
     return redirect(url_for('users'))
 
-# Route for violation_detection.html
-@app.route('/violation-detection', methods=['GET', 'POST'])
-def violation_detection():
-    if request.method == 'POST':
-        # Get the selected video file from the form
-        video_file = request.files['video']
-
-        # Process the video file using the video processing code
-        results = process_video(video_file)
-
-        # Return the results as JSON
-        return jsonify(results=results)
-
-    # Render the violation_detection.html template
-    return render_template('violation_detection.html')

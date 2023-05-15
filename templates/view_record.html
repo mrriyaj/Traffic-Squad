@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">View Record</h5>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <p><strong>ID:</strong> {{ record[0] }}</p>
+                        <p><strong>Car ID:</strong> {{ record[1] }}</p>
+                        <p><strong>Speed:</strong> {{ record[2] }}</p>
+                        <p><strong>Violation Status:</strong>
+                            {% if record[3] %}
+                                <span class="badge badge-danger">Violated</span>
+                            {% else %}
+                                <span class="badge badge-success">Not Violated</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Image:</strong></p>
+                        <img src="{{ url_for('static', filename=record[4]) }}" class="img-fluid" alt="Captured Car Image">
+                        <p><strong>Timestamp:</strong> {{ record[5] }}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('report') }}" class="btn btn-primary">Back to Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
