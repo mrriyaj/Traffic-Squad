@@ -202,10 +202,14 @@ def trackMultipleObjects():
 def violation_detection():
     return render_template('violation_detection.html')
 
-@app.route('/video_feed')
+@app.route('/video_feed', methods=['POST', 'GET'])
 def video_feed():
     global video
-    video = cv2.VideoCapture('cars.mp4')
+
+    if request.method == 'POST':
+        selected_video = request.form.get('video')
+        video = cv2.VideoCapture(os.path.join('static', 'videos', selected_video))
+
     return Response(trackMultipleObjects(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/report')

@@ -7,6 +7,10 @@ from model import User
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+# Import routes after initializing the app and login manager
+from routes import *
+from speed import *
+
 # Set up login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -18,10 +22,6 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized_callback():
     return redirect(url_for('login'))
-
-# Import routes after initializing the app and login manager
-from routes import *
-from speed import *
 
 if __name__ == '__main__':
     app.run(debug=True)
